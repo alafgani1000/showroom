@@ -22,7 +22,8 @@ class CreateTodosTable extends Migration
         });
 
         Schema::create('todo_details', function (Blueprint $table) {
-            $table->bigIncrements('id'); 
+            $table->bigIncrements('id');
+            $table->bigInteger('todo_id'); 
             $table->string('title');
             $table->string('text');
             $table->string('attachment');           
@@ -46,5 +47,7 @@ class CreateTodosTable extends Migration
     public function down()
     {
         Schema::dropIfExists('todos');
+        Schema::dropIfExists('todo_details');
+        Schema::dropIfExists('todo_attachments');
     }
 }

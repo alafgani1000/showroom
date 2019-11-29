@@ -15,17 +15,25 @@ class CreateTodosTable extends Migration
     {
         Schema::create('todos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
+            $table->string('name');
+            $table->date('plan_finish_date');
+            $table->date('date_of_take');
             $table->timestamps();
         });
 
         Schema::create('todo_details', function (Blueprint $table) {
-            $table->bigIncrements('id');            
+            $table->bigIncrements('id'); 
+            $table->string('title');
+            $table->string('text');
+            $table->string('attachment');           
             $table->timestamps();
         });
 
         Schema::create('todo_attachments', function (Blueprint $table) {
-            $table->bigIncrements('id');            
+            $table->bigIncrements('id');  
+            $table->bigInteger('todo_id');  
+            $table->string('name');
+            $table->string('file');        
             $table->timestamps();
         });
     }

@@ -17,6 +17,4 @@ class TodoController extends Controller
             'date_of_take' => $request->date_of_take,
         ]);
     }
-
-    
 }

@@ -15,6 +15,12 @@ class RoleMiddleware
      */
     public function handle($request, Closure $next, $roleName)
     {
+        if(!$request->user()->hasRole($roleName))
+        {
+            return redirect()
+                ->to('home');
+        }
+
         return $next($request);
     }
 }

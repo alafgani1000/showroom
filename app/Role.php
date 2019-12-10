@@ -9,16 +9,12 @@ class Role extends Model
     protected $fillable = ['name'];
     
 
-    public function hasRole($roleName)
+    public function users()
     {
-        foreach($this->name as $role)
-        {
-            if($role === $roleName)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        
+        return $this->belongsToMany('App\User', 'user_roles', 'user_id', 'role_id');
+        
     }
+
+    
 }

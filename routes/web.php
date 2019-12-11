@@ -19,17 +19,17 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => '', 'middleware' => ['auth','role:admin']], function () {
-    Route::get('url', 'controller')
-        ->name('route name');
+// Route::group(['prefix' => '', 'middleware' => ['auth','role:admin']], function () {
+//     Route::get('url', 'controller')
+//         ->name('route name');
     
-    Route::post('url', 'controller')
-        ->name('route name');
+//     Route::post('url', 'controller')
+//         ->name('route name');
 
-    Route::put('url', 'controller')
-        ->name('route name');
+//     Route::put('url', 'controller')
+//         ->name('route name');
 
-    Route::delete('url', 'controller')
-        ->name('route name');
-});
+//     Route::delete('url', 'controller')
+//         ->name('route name');
+// });
 

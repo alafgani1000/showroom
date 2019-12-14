@@ -9,7 +9,7 @@ use App\Http\Controller\TodoDetail;
 
 class TodoController extends Controller
 {
-    public function create(Request $request)
+    public function store(Request $request)
     {
         Todo::create([
             'name' => $request->name,
@@ -17,4 +17,5 @@ class TodoController extends Controller
             'date_of_take' => $request->date_of_take,
         ]);
     }
+
 }

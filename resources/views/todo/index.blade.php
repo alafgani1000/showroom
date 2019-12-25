@@ -95,6 +95,8 @@
                 event.preventDefault();
                 let path = $(this).attr('action');
                 let method = $(this).attr('method');
+
+                
            });
 
            $("#addDetail").click(function(){

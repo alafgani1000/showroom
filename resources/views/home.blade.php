@@ -14,10 +14,22 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <button class="btn" id="alert">
+                            Notification <span class="badge badge-primary"></span>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 @endsection
+@push('scripts')
+    <script>
+        $(function(){
+            $("#alert").click(function(){
+                alert('test');
+            });
+        })
+    </script>
+@endpush

@@ -18,6 +18,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/todo', 'TodoController@index')
+    ->name('todo.index');
+Route::post('/todo', 'TodoController@store')
+    ->name('todo.store');
 
 // Route::group(['prefix' => '', 'middleware' => ['auth','role:admin']], function () {
 //     Route::get('url', 'controller')

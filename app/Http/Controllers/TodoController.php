@@ -3,20 +3,29 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
 use App\Todo;
 use App\TodoAttachment;
 use App\TodoDetail;
+use Datatables;
 
 class TodoController extends Controller
 {
     public function index()
     {
+        $todo = Datatables(Todo::all())->toJson();
         return view('todo.index');
+    }
+    public function data()
+    {
+        $todo = Datatables(Todo::all())->toJson();
+        return $todo;
     }
     public function store(Request $request)
     {
         $validateDate = $request->validate([
-            'name' => 'required',
+            'todo' => 'required',
             'dateoftake' => 'required'
         ]);
 
@@ -26,19 +35,21 @@ class TodoController extends Controller
             'date_of_take' => $request->dateoftake,
         ]);
 
-        foreach($request->detail as $item)
-        {
-            
-            foreach($item as $detail)
-            {
-                $todo->todoDetails(
-                    new TodoDetail([
-                        'title' => $item
-                    ])
-                );
-            }
-            
+        $jumlah = count($request->detail);
+
+        for($i = 0; $i<$jumlah; $i++){
+            // upload
+            $path = $request->detail['attachment'][$i]->store('attachments');
+            // save data
+            $todo->todoDetails(
+                new TodoDetail([
+                    'title' => $request->detail['title'][$i],
+                    'attachment' => $path
+                ])
+            );
         }
+        
+        return 'Success';
     }
 
 }

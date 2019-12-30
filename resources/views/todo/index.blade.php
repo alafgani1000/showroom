@@ -42,9 +42,9 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
                             <h5 class="modal-title">FORM CREATE TODO</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <form id="formtodo" action="{{ route('todo.store') }}" method="post" class="form" enctype="multipart/form-data">
                             @csrf
@@ -68,10 +68,10 @@
                                 <div id="formDetail">
                                     <div class="form-group row detail">
                                         <div class="col">
-                                            <input type="text" class="form-control" placeholder="text" name="detail[title][0]">
+                                            <input type="text" required class="form-control" placeholder="text" name="detail[title][0]">
                                         </div>
                                         <div class="col">
-                                            <input type="file" class="form-control" placeholder="text" name="detail[attachment][0]">                            
+                                            <input type="file" required class="form-control" placeholder="text" name="detail[attachment][0]">                            
                                         </div>
                                     </div>
                                 </div>
@@ -93,10 +93,10 @@
         $(function(){
            $("#formtodo").submit(function(event){
                 event.preventDefault();
-                let path = $(this).attr('action');
-                let method = $(this).attr('method');
+                let method = $(this)
+                $.ajax({
 
-                
+                })
            });
 
            $("#addDetail").click(function(){

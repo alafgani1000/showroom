@@ -12,4 +12,9 @@ class Todo extends Model
     {
         return $this->hasMany('App\TodoDetail');
     }
+
+    public function todoAttachments()
+    {
+        return $this->hasOne('App\TodoAttachment');
+    }
 }

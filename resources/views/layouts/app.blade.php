@@ -4,13 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}" id="csrfToken">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    {{-- <script src="{{ asset('js/jquery-3.4.1.min.js')}}"></script> --}}
+    <script  type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
+    <script src="{{ asset('datatables/datatables.min.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -18,15 +19,30 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('datatables/datatables.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/all.min.css')}}" rel="stylesheet">
+
     @stack('scripts')
+    <style>
+            td.details-control {
+                background: url("{{ asset('images/plus.png') }}")  no-repeat center center;
+                cursor: pointer;
+            }
+            tr.shown td.details-control {
+                background: url("{{ asset('images/minus.png') }}")  no-repeat center center;
+                cursor: pointer;
+            }
+    </style>
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark bg-primary shadow-sm">
             <div class="container">
+                <h1>
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
+                </h1>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>

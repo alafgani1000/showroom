@@ -14,7 +14,6 @@ class TodoController extends Controller
 {
     public function index()
     {
-        $todo = Datatables(Todo::all())->toJson();
         return view('todo.index');
     }
     public function data()
@@ -26,13 +25,13 @@ class TodoController extends Controller
     {
         $validateDate = $request->validate([
             'todo' => 'required',
-            'dateoftake' => 'required'
+            'plan_finish_date' => 'required'
         ]);
 
         $todo = Todo::create([
             'name' => $request->todo,
             'plan_finish_date' => $request->dateoftake,
-            'date_of_take' => $request->dateoftake,
+            'date_of_take' => NULL,
         ]);
 
         $jumlah = count($request->detail);

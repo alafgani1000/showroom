@@ -18,17 +18,17 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table-bordered table-responsive">
+                    <table class="table display" id="dttodo" style="width:100%">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>Todo</th>
-                                <th>Date Of Take</th>
+                                <th>Pland Finish Date</th>
                                 <th>Date Create</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            
-                        </tbody>
+                       
                     </table>
                 </div>
                     
@@ -48,17 +48,20 @@
                         </div>
                         <form id="formtodo" action="{{ route('todo.store') }}" method="post" class="form" enctype="multipart/form-data">
                             @csrf
-                            <div class="modal-body">     
+                            <div class="modal-body">   
+                                <div class="alert alert-success" role="alert" id="idalert" style="display:none">
+                                    
+                                </div>  
                                 <input type="hidden" name="0" id="nilai" value="0">               
                                 <div class="form-group">
                                     <label for="todo">Todo</label>
                                     <textarea class="form-control" name="todo" id="todo" rows="4"></textarea>
-                                    <small id="helpTodo" class="text-danger">Help text</small>
+                                    <small id="helpTodo" class="text-danger"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label for="dateoftake">Date</label>
-                                    <input type="date" name="dateoftake" id="dateoftake" class="form-control" placeholder="" aria-describedby="">
-                                    <small id="helpDateoftake" class="text-danger">Help text</small>
+                                    <label for="plan_finish_date">Date</label>
+                                    <input type="date" name="plan_finish_date" id="plan_finish_date" class="form-control" placeholder="" aria-describedby="">
+                                    <small id="helpPlanFinishDate" class="text-danger"></small>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-10">
@@ -90,13 +93,94 @@
 @endsection
 @push('scripts')
     <script>
-        $(function(){
-           $("#formtodo").submit(function(event){
-                event.preventDefault();
-                let method = $(this)
-                $.ajax({
+        function resetForm(){
+            $("#todo").val('');
+            $("#plan_finish_date").val('');
+            $(".detachdata").detach();
+        }
 
+        function format ( d ) {
+            return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+                '<tr>'+
+                    '<td>Full name:</td>'+
+                '</tr>'+
+            '</table>';
+        }
+
+        $(function(){
+            var table = $('#dttodo').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ url('/todo/data') }}",
+                    type: "GET",
+                    dataType: "JSON",
+                    data:{ _token: "{{csrf_token()}}"}
+                },
+                columns: [
+                        {
+                            className: 'details-control',
+                            orderable: false,
+                            data: null,
+                            defaultContent: ''
+                        },
+                        {data:'name', name:'name'},
+                        {data:'plan_finish_date', name:'plan_finish_date'},
+                        {data:'created_at', name:'created_at'},
+                        {data:'id', render: function(d){
+                            return '<div class="btn btn-group"><button class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></button><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button></div>';
+                        }}
+                    ],
+            });
+
+            $('#dttodo tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row( tr );
+         
+                if ( row.child.isShown() ) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    row.child( format(row.data()) ).show();
+                    tr.addClass('shown');
+                }
+            } );
+
+            $("#formtodo").submit(function(event){
+                event.preventDefault();
+                let method = $(this).attr("method");
+                let url = $(this).attr("action");
+                let enctype = $(this).attr("enctype");
+                let data = $(this).serialize(); 
+                $.ajax({
+                    type: method,
+                    url: url,
+                    entype: enctype,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    data: data,
+                    headers: {
+                        "X-CSRF-TOKEN": $("#csrfToken").attr("content")
+                    },
+                    beforeSend: function(){
+                        
+                    }
                 })
+                .done(function(data){
+                    $("#idalert").html(data);
+                    $("#idalert").css({'display':'block'});
+                    resetForm();
+                    console.log(data);
+                })
+                .fail(function(data){
+                    let error = data.responseJSON.errors;
+                    $("#helpTodo").html(error.plan_finish_date);
+                    $("#helpPlanFinishDate").html(error.todo);
+                });
            });
 
            $("#addDetail").click(function(){
@@ -108,7 +192,7 @@
                     nomor = nilai + 1;
                 }
                 $("#nilai").val(nomor);
-                $("#formDetail").append('<div class="form-group row detail">'+
+                $("#formDetail").append('<div class="form-group row detail detachdata">'+
                         '<div class="col">'+
                             '<input type="text" class="form-control" placeholder="text" name="detail[title]['+ nomor +']">'+
                         '</div>'+

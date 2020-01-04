@@ -46,7 +46,7 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form id="formtodo" action="{{ route('todo.store') }}" method="post" class="form" enctype="multipart/form-data">
+                        <form id="formtodo" action="{{ route('todo.store') }}" method="POST" class="form" enctype="multipart/form-data">
                             @csrf
                             <div class="modal-body">   
                                 <div class="alert alert-success" role="alert" id="idalert" style="display:none">
@@ -59,7 +59,7 @@
                                     <small id="helpTodo" class="text-danger"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label for="plan_finish_date">Date</label>
+                                    <label for="plan_finish_date">Plan Finish Date</label>
                                     <input type="date" name="plan_finish_date" id="plan_finish_date" class="form-control" placeholder="" aria-describedby="">
                                     <small id="helpPlanFinishDate" class="text-danger"></small>
                                 </div>
@@ -147,7 +147,7 @@
                     row.child( format(row.data()) ).show();
                     tr.addClass('shown');
                 }
-            } );
+            });
 
             $("#formtodo").submit(function(event){
                 event.preventDefault();
@@ -155,14 +155,16 @@
                 let url = $(this).attr("action");
                 let enctype = $(this).attr("enctype");
                 let data = $(this).serialize(); 
+                var formData = new FormData(this);
+                
                 $.ajax({
                     type: method,
                     url: url,
-                    entype: enctype,
+                    enctype: 'multipart/form-data',
                     processData: false,
                     contentType: false,
                     cache: false,
-                    data: data,
+                    data:formData,
                     headers: {
                         "X-CSRF-TOKEN": $("#csrfToken").attr("content")
                     },
@@ -174,12 +176,19 @@
                     $("#idalert").html(data);
                     $("#idalert").css({'display':'block'});
                     resetForm();
-                    console.log(data);
+                
                 })
                 .fail(function(data){
                     let error = data.responseJSON.errors;
-                    $("#helpTodo").html(error.plan_finish_date);
-                    $("#helpPlanFinishDate").html(error.todo);
+                    if (error !== undefined){
+                        if(error.todo !== undefined){
+                            $("#helpTodo").html(error.todo);
+                        }
+                        if(error.plan_finish_date !== undefined){
+                            $("#helpPlanFinishDate").html(error.plan_finish_date);
+                        }
+                    }                  
+                                           
                 });
            });
 

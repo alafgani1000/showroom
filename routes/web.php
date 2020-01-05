@@ -16,26 +16,27 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/todo', 'TodoController@index')
-    ->name('todo.index');
-Route::get('/todo/data', 'TodoController@data')
-    ->name('todo.data');
-Route::post('/todo', 'TodoController@store')
-    ->name('todo.store');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/todo', 'TodoController@index')
+        ->name('todo.index');
+    Route::get('/todo/data', 'TodoController@data')
+        ->name('todo.data');
+    Route::post('/todo', 'TodoController@store')
+        ->name('todo.store');
+    Route::get('/todo/delete','TodoController@delete')
+        ->name('todo.delete');
+    Route::get('/todo/edit','TodoController@edit')
+        ->name('todo.edit');
+    Route::post('/todo/delete_detail', 'TodoController@deleteDetail')
+        ->name('todo.delete_detail');
+    Route::post('/todo/update', 'TodoController@update')
+        ->name('todo.update');
+});
+
 
 // Route::group(['prefix' => '', 'middleware' => ['auth','role:admin']], function () {
 //     Route::get('url', 'controller')
-//         ->name('route name');
-    
-//     Route::post('url', 'controller')
-//         ->name('route name');
-
-//     Route::put('url', 'controller')
-//         ->name('route name');
-
-//     Route::delete('url', 'controller')
 //         ->name('route name');
 // });
 

@@ -9,11 +9,11 @@
                     <div class="row">
                         <div class="col-10">
                             <div class="title">
-                                Todo List
+                                Task List
                             </div>
                         </div>
                         <div class="col-2">
-                            <button type="button" class="btn btn-primary rightButton float-right" data-toggle="modal" data-target="#modelId" id="modalInsert">Add Todo</button>                        
+                            <button type="button" class="btn btn-primary rightButton float-right" data-toggle="modal" data-target="#modelId" id="modalInsert">Add Task</button>                        
                         </div>
                     </div>
                 </div>
@@ -25,8 +25,9 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Todo</th>
+                                <th>Task</th>
                                 <th>Pland Finish Date</th>
+                                <th>Funish Date</th>
                                 <th>Date Create</th>
                                 <th>Action</th>
                             </tr>
@@ -39,11 +40,27 @@
             <!-- Button trigger modal -->
             
             <!-- Modal -->
+            <div class="modal fade" id="modal_detail" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                <div class="modal-dialog modal-md" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title">FORM EDIT DETAIL TASK</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div id="form_detail_content">
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="modal fade" id="modal_edit" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
-                            <h5 class="modal-title">FORM EDIT TODO</h5>
+                            <h5 class="modal-title">FORM EDIT TASK</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -60,7 +77,7 @@
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
-                            <h5 class="modal-title">FORM CREATE TODO</h5>
+                            <h5 class="modal-title">FORM CREATE TASK</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -108,7 +125,7 @@
                                                 <input type="date" required class="form-control" placeholder="text" name="detail[detail_plan_finish][0]">
                                             </div>
                                             <div class="col">
-                                                <input type="file" required class="form-control" placeholder="text" name="detail[attachment][0]">                            
+                                                <input type="file" class="form-control" placeholder="text" name="detail[attachment][0]">                            
                                             </div>
                                         </div>
                                     </div>
@@ -151,13 +168,14 @@
         function format ( d ) {
             var trs = '';
             $.each(d.todo_details, function(i, item) {
-                trs += '<tr><td>'+item.id+'</td><td>'+item.text+'</td><td>'+item.plan_finish_date+'</td><td><button class="btn btn-warning btn-sm"><i class="fas fa-edit text-primary"></i></button></td></tr>';
+                trs += '<tr><td>'+item.id+'</td><td>'+item.text+'</td><td>'+item.plan_finish_date+'</td><td>'+item.finish_date+'</td><td><div class="btn-group"><button class="btn btn-primary btn-sm" onclick="edit_detail('+item.id+')"><i class="fas fa-edit text-white"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-check-square text-white"></i></button></div></td></tr>';
               });
             return '<table class="table" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
                 '<tr>'+
                     '<th>Id</th>'+
                     '<th>detail Task</th>'+
                     '<th>Plan Finish Date</th>'+
+                    '<th>Finish Date</th>'+
                     '<th>Action</th>'+
                 '</tr>'+
                     trs
@@ -208,6 +226,25 @@
             });
         }
 
+        function edit_detail(id = null){
+            $.ajax({
+                type:"GET",
+                url:"{{ url('/todo/edit_detail') }}",
+                contentType:"JSON",
+                cache:false,
+                data:{
+                    id:id
+                },
+                headers:{
+                    "X-CSRF-TOKEN":$("#csrfToken").attr("content")
+                },
+            })
+            .done(function(data){
+                $("#form_detail_content").html(data);
+                $("#modal_detail").modal();
+            });
+        }
+
         $(function(){
             var table = $('#dttodo').DataTable({
                 processing: true,
@@ -227,6 +264,7 @@
                         },
                         {data:'name', name:'name'},
                         {data:'plan_finish_date', name:'plan_finish_date'},
+                        {data:'finish_date', name:'finish_date'},
                         {data:'created_at', name:'created_at'},
                         {data:'id', render: function(d){
                             return '<div class="btn btn-group"><button class="btn btn-sm btn-primary" onclick="edit('+d+')"><i class="fa fa-edit"></i></button><button class="btn btn-sm btn-danger" onclick="deleted('+d+')"><i class="fa fa-trash"></i></button></div>';

@@ -32,6 +32,10 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('todo.delete_detail');
     Route::post('/todo/update', 'TodoController@update')
         ->name('todo.update');
+    Route::get('/todo/edit_detail/', 'TodoController@editDetail')
+        ->name('todo.edit_detail');
+    Route::post('/todo/update_detail', 'TodoController@updateDetail')
+        ->name('todo.update_detail');
 });
 
 

@@ -96,6 +96,24 @@ class TodoController extends Controller
 
         return 'Success';
     }
+    
+    public function updateDetail(Request $request)
+    {
+        $path = $request->attachment->store('attachments');
+        TodoDetail::where('id',$request->id)->update([
+            'text' => $request->text,
+            'plan_finish_date' => $request->plan_finish_date,
+            'attachment' => $path
+        ]);
+
+        return "Edit Success";
+    }
+
+    public function editDetail(Request $request)
+    {
+        $todoDetail = TodoDetail::find($request->id);
+        return view('todo.detail', compact('todoDetail'));
+    }
 
     public function deleteDetail(Request $request)
     {

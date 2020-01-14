@@ -27,7 +27,7 @@
                                 <th></th>
                                 <th>Task</th>
                                 <th>Pland Finish Date</th>
-                                <th>Funish Date</th>
+                                <th>Finish Date</th>
                                 <th>Date Create</th>
                                 <th>Action</th>
                             </tr>

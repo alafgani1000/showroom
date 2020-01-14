@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use App\Todo;
 use App\TodoAttachment;
 use App\TodoDetail;
@@ -13,7 +14,7 @@ use Datatables;
 
 class TodoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return view('todo.index');
     }

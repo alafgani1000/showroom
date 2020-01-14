@@ -66,9 +66,16 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('todo.index') }}">Todo List</a>
-                            </li>
+                            @foreach (Menu::getRoles()  as $item)
+                                @foreach($item->menus as $menu) 
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route($menu->kode) }}">{{ $menu->label }}</a>
+                                    </li>
+                                @endforeach
+                            @endforeach
+                            {{-- <li class="nav-item">
+                                <a class="nav-link" href="{{ route('todo.index') }}">{{Menu::getMenus()}}</a>
+                            </li>  --}}
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

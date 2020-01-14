@@ -17,8 +17,7 @@ class RoleMiddleware
     {
         if(!$request->user()->hasRole($roleName))
         {
-            return redirect()
-                ->to('home');
+            return redirect()->to('home');
         }
 
         return $next($request);

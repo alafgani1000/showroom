@@ -14,11 +14,13 @@ class Menu
 
     public function getRoles()
     {
+        // mendapatkan roles untuk user
         return Auth::user()->roles;
     }
 
     public function getMenus()
     {
+        // mendapatkan menu user->roles->menus
         $collect = collect();
         $role = Auth::user()->roles;
         $menu = $role->each(function($item, $key)use($collect){

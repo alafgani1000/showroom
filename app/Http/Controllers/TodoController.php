@@ -110,6 +110,15 @@ class TodoController extends Controller
         return "Edit Success";
     }
 
+    public function doneDetail(Request $request)
+    {
+        TodoDetail::where('id',$request->id)->update([
+            'finish_date' => date('Y-m-d'),
+        ]);
+
+        return "Todo Done";
+    }
+
     public function editDetail(Request $request)
     {
         $todoDetail = TodoDetail::find($request->id);

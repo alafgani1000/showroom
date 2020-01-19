@@ -167,8 +167,12 @@
 
         function format ( d ) {
             var trs = '';
+            var btn = '';
             $.each(d.todo_details, function(i, item) {
-                trs += '<tr><td>'+item.id+'</td><td>'+item.text+'</td><td>'+item.plan_finish_date+'</td><td>'+item.finish_date+'</td><td><div class="btn-group"><button class="btn btn-primary btn-sm" onclick="edit_detail('+item.id+')"><i class="fas fa-edit text-white"></i></button><button class="btn btn-sm btn-danger"><i class="fas fa-check-square text-white"></i></button></div></td></tr>';
+                if(item.finish_date == null){
+                    btn = '<div class="btn-group"><button class="btn btn-primary btn-sm" onclick="edit_detail('+item.id+')"><i class="fas fa-edit text-white"></i></button><button class="btn btn-sm btn-danger" onclick="todo_detail_done('+item.id+')"><i class="fas fa-check-square text-white"></i></button></div>';
+                }
+                trs += '<tr><td>'+item.id+'</td><td>'+item.text+'</td><td>'+item.plan_finish_date+'</td><td>'+item.finish_date+'</td><td>'+btn+'</td></tr>';
               });
             return '<table class="table" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
                 '<tr>'+
@@ -246,7 +250,7 @@
         }
 
         $(function(){
-            var table = $('#dttodo').DataTable({
+            table = $('#dttodo').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -365,5 +369,26 @@
                resetAll();
            })
         });
+
+        function todo_detail_done(id = null){
+            if(confirm('Done ?')){
+                $.ajax({
+                    type:"POST",
+                    url:"{{ url('/todo/done_detail') }}",
+                    cache:false,
+                    data:{
+                        id:id
+                    },
+                    headers:{
+                        "X-CSRF-TOKEN":$("#csrfToken").attr("content")
+                    },
+                })
+                .done(function(data){
+                    $("#idalert1").html(data);
+                    $("#idalert1").css({'display':'block'});
+                    table.ajax.reload();
+                });
+            }
+        }
     </script>
 @endpush

@@ -4,14 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Supplier extends Model
+class Unit extends Model
 {
-    protected $fillable = ['noid','nama','alamat'];
-
-    public function products()
-    {
-        return $this->hasMany('App\Product');
-    }
+    protected $fillable = ['text'];
 
     public function incomingGoods()
     {

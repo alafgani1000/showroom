@@ -19,6 +19,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => ['auth']], function(){
     Route::group(['middleware' => ['role:admin']], function(){
+        // transaction
         Route::get('/transaction', 'TransactionController@index')
             ->name('tr.index');
         Route::get('/transaction/create', 'TransactionController@create')
@@ -35,12 +36,56 @@ Route::group(['middleware' => ['auth']], function(){
         Route::post('/part/delete', 'PartChangeController@destroy')
             ->name('part.delete');
 
+        // employee controller
         Route::get('/employee', 'EmployeeController@index')
             ->name('emp.index');
         Route::get('/employee/create', 'EmployeeController@create')
             ->name('emp.create');
-        Route::post('/emp/store', 'EmployeeController@store')
+        Route::post('/employee/store', 'EmployeeController@store')
             ->name('emp.store');
+        Route::get('/employee/{id}/edit', 'EmployeeController@edit')
+            ->name('emp.edit');
+        Route::post('/employee/update', 'EmployeeController@update')
+            ->name('emp.update');
+        Route::post('/employee/delete', 'EmployeeController@delete')
+            ->name('emp.delete');
+
+        // location
+        Route::get('/loc', 'LocationController@index')
+            ->name('loc.index');
+        Route::get('/loc/data', 'LocationController@data')
+            ->name('loc.data');
+        Route::post('/loc/store', 'LocationController@store')
+            ->name('loc.store');
+        Route::get('/loc/{id}/edit', 'LocationController@edit')
+            ->name('loc.edit');
+        Route::post('/loc/delete', 'LocationController@destroy')
+            ->name('loc.delete');
+        Route::post('/loc/update', 'LocationController@update')
+            ->name('loc.update');
+        
+        // unit
+        Route::get('/unit', 'UnitController@index')
+            ->name('unit.index');
+        Route::get('/unit/data', 'UnitController@data')
+            ->name('unit.data');
+        Route::post('/unit/store', 'UnitController@store')
+            ->name('unit.store');
+        Route::get('/unit/{id}/edit', 'UnitController@edit')
+            ->name('unit.edit');
+        Route::post('/unit/delete', 'UnitController@destroy')
+            ->name('unit.delete');
+        Route::post('/unit/update', 'UnitController@update')
+            ->name('unit.update');
+
+        Route::get('/incoming_goods', 'IncomingGoodsController@index')
+            ->name('incoming_goods.index');
+        Route::get('/incoming_goods/data', 'IncomingGoodsController@data')
+            ->name('incoming_goods.data');
+        Route::get('/incoming_goods/{code}/data', 'IncomingGoodsController@dataByIncomingCode')
+            ->name('incoming_goods.by_incoming_code');
+        Route::get('/incoming_goods/create', 'IncomingGoodsController@create')
+            ->name('incoming_goods.create');
         /* 
         {
         Route::get('/todo', 'TodoController@index')

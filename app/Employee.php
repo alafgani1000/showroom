@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
     protected $fillable = ['nip','noid','nama','jenis_kelamin','alamat','tempat','tanggal_lahir','alamat','telp','email'];
+
+    public function user()
+    {
+        return $this->hasOne('App\User');
+    }
 }

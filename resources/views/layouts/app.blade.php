@@ -6,7 +6,7 @@
   <title>Showroom</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="csrfToken" content="{{ csrf_token() }}">
 
   
   <!-- Bootstrap 3.3.7 -->
@@ -139,7 +139,31 @@
         @endforeach
         <li class="treeview">
           <a href="#">
+            <i class="fa fa-share"></i> <span>Inventory</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{route('incoming_goods.index')}}"><i class="fa fa-circle-o"></i> Barang Masuk</a></li>
+            <li><a href="{{route('incoming_goods.data')}}"><i class="fa fa-circle-o"></i> Barang Keluar</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
             <i class="fa fa-share"></i> <span>Master Data</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{route('loc.index')}}"><i class="fa fa-circle-o"></i> Location</a></li>
+            <li><a href="{{route('unit.index')}}"><i class="fa fa-circle-o"></i> Unit</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-share"></i> <span>Setting</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>

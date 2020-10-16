@@ -13,7 +13,7 @@ class UpdateIncomingGoods extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class UpdateIncomingGoods extends FormRequest
     public function rules()
     {
         return [
-            //
+            'goods_name'    => 'required',
+            'qty'           => 'required',
+            'price'         => 'required',
+            'date_of_buy'   => 'required',
+            'unit_id'       => 'required',
+            'supplier_id'   => 'required',
         ];
     }
 }

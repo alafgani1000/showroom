@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Request\StoreIncomingGoods;
-use App\Http\Request\UpdateIncomingRequest;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreIncomingGoods;
+use App\Http\Requests\UpdateIncomingGoods;
 use App\Supplier;
 use App\Unit;
 use App\IncomingGoods;
@@ -39,11 +40,11 @@ class IncomingGoodsController extends Controller
     public function store(StoreIncomingGoods $request)
     {
         $inc = IncomingGoods::create([
-            'incoming_code' => $request->incoming_code,
+            'incoming_code' => ''.date('Y').date('m').date('d').Auth::user()->id.'',
             'goods_name' => $request->goods_name,
             'qty' => $request->qty,
             'price' => $request->price,
-            'date_of_buy' => $request->date_of_buy,
+            'date_buy' => $request->date_of_buy,
             'unit_id' => $request->unit_id,
             'supplier_id' => $request->supplier_id
         ]);
@@ -52,18 +53,19 @@ class IncomingGoodsController extends Controller
 
     public function edit($id)
     {
+        $units = Unit::all();
+        $suppliers = Supplier::all();
         $inc = IncomingGoods::find($id);
-        return view('incoming_goods.edit', compact('inc'));
+        return view('incoming_goods.edit', compact('inc','units','suppliers'));
     }
 
-    public function update(UpdateIncomingRequest $request)
+    public function update(UpdateIncomingGoods $request)
     {
         $update = IncomingGoods::where('id',$request->incoming_goods_id)->update([
-            'incoming_code' => $request->incoming_code,
             'goods_name' => $request->goods_name,
             'qty' => $request->qty,
             'price' => $request->price,
-            'date_of_buy' => $request->date_of_buy,
+            'date_buy' => $request->date_of_buy,
             'unit_id' => $request->unit_id,
             'supplier_id' => $request->supplier_id
 

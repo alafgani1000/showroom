@@ -70,7 +70,7 @@
             <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">FORM UPDATE LOCATION</h4>
+                <h4 class="modal-title">FORM UPDATE BARANG MASUK</h4>
                 </div>
                 <div class="modal-body" id="content-response">
                     
@@ -147,12 +147,12 @@
                 },
                 columns: [
                         {data:'id', name:'id'},
-                        {data:'incoming_data', name:'incoming_data'},
+                        {data:'incoming_code', name:'incoming_code'},
                         {data:'goods_name', name:'goods_name'},
                         {data:'qty', name:'qty'},
                         {data:'unit.text', name:'unit.text'},
                         {data:'price', name:'price'},
-                        {data:'supplier.text', name:'supplier.text'},
+                        {data:'supplier.nama', name:'supplier.nama'},
                         {data:'created_at', name:'created_at'},
                         {data:'id', render: function(d){
                             return '<div class="btn btn-group"><button class="btn btn-sm btn-primary edit-data" data-id="'+d+'"> <i class="fa fa-edit"></i></button><button class="btn btn-sm btn-danger delete-data" data-id="'+d+'"> <i class="fa fa-trash"></i></button></div>';
@@ -162,7 +162,7 @@
 
             $("#example1 tbody").on("click", "tr button.edit-data", function(){
                 const id = $(this).attr('data-id');
-                let route = "/loc/"+id+"/edit";
+                let route = "/incoming_goods/"+id+"/edit";
                 $.ajax({
                   type:'GET',
                   url:route,

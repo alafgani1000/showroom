@@ -55,7 +55,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>LTE</span>
+      <span class="logo-lg"><b>SHOW</b> room</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -139,14 +139,16 @@
         @endforeach
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-share"></i> <span>Inventory</span>
+            <i class="fa fa-share"></i> <span>Workshop</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{route('incoming_goods.index')}}"><i class="fa fa-circle-o"></i> Barang Masuk</a></li>
-            <li><a href="{{route('incoming_goods.data')}}"><i class="fa fa-circle-o"></i> Barang Keluar</a></li>
+            <li><a href="{{route('incoming_goods.index')}}"><i class="fa fa-circle-o"></i> Incoming goods</a></li>
+            <li><a href="{{route('exit_item.index')}}"><i class="fa fa-circle-o"></i> Exit items</a></li>
+            <li><a href="{{route('exit_item.index')}}"><i class="fa fa-circle-o"></i> Inventory</a></li>
+            <li><a href="{{route('exit_item.index')}}"><i class="fa fa-circle-o"></i> Transactions</a></li>
           </ul>
         </li>
         <li class="treeview">

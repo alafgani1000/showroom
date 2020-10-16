@@ -24,7 +24,6 @@ class StoreIncomingGoods extends FormRequest
     public function rules()
     {
         return [
-            'incoming_code' => 'required',
             'goods_name'    => 'required',
             'qty'           => 'required',
             'price'         => 'required',

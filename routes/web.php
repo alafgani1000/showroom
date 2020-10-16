@@ -86,6 +86,19 @@ Route::group(['middleware' => ['auth']], function(){
             ->name('incoming_goods.by_incoming_code');
         Route::get('/incoming_goods/create', 'IncomingGoodsController@create')
             ->name('incoming_goods.create');
+        Route::post('/incoming_goods/store', 'IncomingGoodsController@store')
+            ->name('incoming_goods.store');
+        Route::get('/incoming_goods/{id}/edit', 'IncomingGoodsController@edit')
+            ->name('incoming_goods.edit');
+        Route::post('/incoming_goods/update', 'IncomingGoodsController@update')
+            ->name('incoming_goods.update');
+
+        Route::get('/exit_item', 'ExitItemController@index')
+            ->name('exit_item.index');    
+        Route::get('/exit_item/data', 'ExitItemController@data')
+            ->name('exit_item.data');    
+        Route::get('/exit_item/store', 'ExitItemController@store')
+            ->name('exit_item.store'); 
         /* 
         {
         Route::get('/todo', 'TodoController@index')
